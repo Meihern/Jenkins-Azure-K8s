@@ -1,5 +1,12 @@
 pipeline{
 
+    environment{
+        azureContainerRegistry = "bookstoreapp.azurecr.io"
+        imageName = "bookstoreapp-spring"
+        azureContainerRegistryCredentials = 'bookstoreapp-acr'
+        azureContainerRegistryUrl = 'bookstoreapp.azurecr.io'
+    }
+
     agent any
     tools {
         maven 'Maven-3.6.3'
@@ -13,16 +20,18 @@ pipeline{
         }
         stage("Docker Build"){
             steps {
-                azureContainerRegistry = "bookstoreapp.azurecr.io"
-                imageName = "bookstoreapp-spring"
-                app = docker.build(azureContainerRegistry+"/"+imageName)
+                script{
+                    dockerImage = docker.build imageName
+                }
             }
         }
         stage("Docker Push"){
             steps{
-                withDockerRegistry(credentialsId: 'bookstoreapp-acr', url: 'bookstoreapp.azurecr.io') {
-                    app.push("${env.BUILD_NUMBER}")
-                    app.push("latest")
+                script{
+                    withDockerRegistry(credentialsId: azureContainerRegistryCredentials, url: azureContainerRegistryUrl) {
+                        dockerImage.push("${BUILD_NUMBER}")
+                        dockerImage.push('latest')
+                    }
                 }
             }
 
