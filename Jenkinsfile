@@ -27,7 +27,7 @@ pipeline{
         stage("Docker Push"){
             steps{
                 script{
-                    withDockerRegistry(credentialsId: azureContainerRegistryCredentials, url: azureContainerRegistry) {
+                    withDockerRegistry(credentialsId: azureContainerRegistryCredentials, url: "https://"+azureContainerRegistry+"/v2") {
                         dockerImage.push("${BUILD_NUMBER}")
                         dockerImage.push('latest')
                     }
@@ -42,7 +42,4 @@ pipeline{
             archiveArtifacts artifacts: 'target/*.jar, target/*.war, target/*.zip'
         }
     }
-
-
-
 }
