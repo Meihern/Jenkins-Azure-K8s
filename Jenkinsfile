@@ -18,7 +18,7 @@ pipeline{
     }
 
     post {
-        always {
+        success {
             archiveArtifacts artifacts: 'target/*.jar, target/*.war, target/*.zip'
         }
     }
