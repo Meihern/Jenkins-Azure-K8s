@@ -24,7 +24,7 @@ pipeline{
                 }
             }
         }
-        stage("Docker Push"){
+        stage("ACR Docker Push"){
             steps{
                 script{
                     withDockerRegistry(credentialsId: azureContainerRegistryCredentials, url: "https://"+azureContainerRegistry+"/v2") {
@@ -34,6 +34,12 @@ pipeline{
                 }
             }
 
+        }
+        stage ('AKS Deploy') {
+            steps {
+                sh 'kubectl apply -f ./bookstore-deployment-config.yaml'
+                sh "kubectl set image deployment/bookstore-deployment bookstore=${dockerImage}:${BUILD_NUMBER}"
+            }
         }
     }
 
