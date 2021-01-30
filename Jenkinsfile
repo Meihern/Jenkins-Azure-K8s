@@ -35,7 +35,7 @@ pipeline{
         stage ('AKS Deploy') {
             steps {
                 sh 'kubectl apply -f ./bookstore-deployment-config.yaml'
-                sh "kubectl set image deployment/bookstore-deployment bookstore=${dockerImage}:${BUILD_NUMBER}"
+                sh "kubectl set image deployment/bookstore-deployment bookstore=${azureContainerRegistry}/${imageName}:${BUILD_NUMBER}"
             }
         }
     }
