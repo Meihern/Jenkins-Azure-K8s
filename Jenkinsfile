@@ -1,16 +1,13 @@
 pipeline{
-
     environment{
         azureContainerRegistry = "bookstoreapp.azurecr.io"
         imageName = "bookstoreapp-spring"
         azureContainerRegistryCredentials = 'bookstoreapp-acr'
     }
-
     agent any
     tools {
         maven 'Maven-3.6.3'
     }
-
     stages {
         stage("Maven Build"){
             steps {
@@ -42,7 +39,6 @@ pipeline{
             }
         }
     }
-
     post {
         success {
             archiveArtifacts artifacts: 'target/*.jar, target/*.war, target/*.zip'

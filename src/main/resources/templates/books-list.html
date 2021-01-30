@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Book List</title>
@@ -15,7 +15,7 @@
     <tbody>
     <tr th:each="book:${books}">
         <td th:text="${book.bookName}"></td>
-        <td th:text="${book.author.firstName} ${book.author.lastName}"></td>
+        <td th:text="${book.author.firstName}+' '+${book.author.lastName}"></td>
         <td th:text="${book.genre.name}"></td>
 
     </tr>
