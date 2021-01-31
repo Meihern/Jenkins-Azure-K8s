@@ -11,8 +11,14 @@ import java.util.List;
 @Controller
 public class BookController {
     BookRepository bookRepository;
+
     public BookController(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
+    }
+
+    @GetMapping("/")
+    public String getHome(){
+        return "home";
     }
 
     @GetMapping("/books")
